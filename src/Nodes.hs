@@ -15,7 +15,7 @@ logMessage msg = say $ "handling " ++ msg
 start :: IO ()
 start = do
   Right t <- createTransport "127.0.0.1" "10501" defaultTCPParameters
-  node <- newLocalNode t initRemoteTable
+  node    <- newLocalNode t initRemoteTable
   runProcess node $ do
     -- Spawn another worker on the local node
     echoPid <- spawnLocal $ forever $ do
@@ -32,11 +32,11 @@ start = do
     send echoPid (self, "hello")
 
     -- `expectTimeout` waits for a message or times out after "delay"
-    m <- expectTimeout 1000000
+    m    <- expectTimeout 1000000
     case m of
       -- Die immediately - throws a ProcessExitException with the given reason.
-      Nothing  -> die "nothing came back!"
-      Just s -> say $ "got " ++ s ++ " back!"
+      Nothing -> die "nothing came back!"
+      Just s  -> say $ "got " ++ s ++ " back!"
 
     -- Without the following delay, the process sometimes exits before the messages are exchanged.
     liftIO $ threadDelay 2000000

@@ -10,7 +10,7 @@ start = do
   node    <- newLocalNode t initRemoteTable
   _       <- runProcess node $ do
     -- get our own process id
-    self <- getSelfPid
+    self  <- getSelfPid
     send self "hello"
     hello <- expect :: Process String
     liftIO $ putStrLn hello
